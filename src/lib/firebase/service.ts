@@ -25,7 +25,7 @@ export async function register(
         fullname: string,
         email: string,
         password: string,
-        role?: string,
+        type?: string,
     },
 ) {
     try {
@@ -48,7 +48,7 @@ export async function register(
             }
         }
         else {
-            data.role = 'admin',
+            data.type = 'free',
             data.password = await bcrypt.hash(data.password, 10)
             
             try {
