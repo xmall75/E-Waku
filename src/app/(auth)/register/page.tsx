@@ -39,44 +39,39 @@ export default function RegisterPage() {
 	}
 
     return (
-        <div className="h-screen max-w-2xl mx-auto flex flex-col items-center justify-center">
-        	{error !== '' && <p className="font-medium text-md mb-3 text-red-600">{error}</p>}
+        <div className="h-screen flex-col max-w-2xl mx-auto flex items-center justify-center">
+		{/* {error !== '' && <p className="font-medium text-md mb-3 text-red-600">{error}</p>} */}
 			
 			<div
-        		className="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm p-4 sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700">
-        		<form className="space-y-6" action="#" onSubmit={(e) => handleSubmit(e) }>
-        			<h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
-                    <div>
-        				<label htmlFor="fullname" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Your fullname</label>
-        				<input type="text" name="fullname" id="fullname" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="Rep Randolvski" required />
+			className="bg-white w-full h-full p-4 sm:p-6 lg:p-8 outline flex flex-col items-center justify-center">
+				<img src="/pictures/auth-logo.png" className="w-16 h-12 object-cover mb-5" alt="" />
+				<form className="w-4/5 h-full flex flex-col justify-start" action="#" onSubmit={(e) => handleSubmit(e) }>
+					<h3 className="text-xl font-semibold text-black text-center font-[Poppins]">Get Started for Free</h3>
+					<h4 className="text-sm font-light text-black text-center font-[Poppins] mb-5">Begin your business by creating e-Waku account</h4>
+					<div className="w-full h-10 mt-10">
+						{error !== '' && <h4 className="text-red-600 font-medium text-md text-center">{error}</h4>}
+					</div>
+					<div className="mb-5 mt-5">
+						<label htmlFor="fullname" className="text-sm text-gray-900 block mb-1 font-[Poppins]">Fullname</label>
+						<input type="text" name="fullname" id="fullname" className="border-b border-gray-800 text-slate-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1" placeholder="Rep Randolvski" required />
+					</div>
+					<div className="mb-5">
+						<label htmlFor="email" className="text-sm text-gray-900 block mb-1 font-[Poppins]">Email</label>
+						<input type="email" name="email" id="email" className="border-b border-gray-800 text-slate-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1" placeholder="name@company.com" required />
                     </div>
-        			<div>
-        				<label htmlFor="email" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Your email</label>
-        				<input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required />
+					<div className="mb-5">
+						<label htmlFor="password" className="text-sm text-gray-900 block mb-1 font-[Poppins]">Password</label>
+						<input type="password" name="password" id="password" placeholder="••••••••" className="border-b border-gray-800 text-slate-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1" required />
                     </div>
-        				<div>
-        					<label htmlFor="password" className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Your password</label>
-        					<input type="password" name="password" id="password" placeholder="••••••••" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
-                        </div>
-        					<div className="flex items-start">
-        						<div className="flex items-start">
-        							<div className="flex items-center h-5">
-        								<input id="remember" aria-describedby="remember" type="checkbox" className="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800" />
-                                    </div>
-        								<div className="text-sm ml-3">
-        									<label htmlFor="remember" className="font-medium text-gray-900 dark:text-gray-300">Remember me</label>
-        								</div>
-        							</div>
-        						</div>
-        						<button disabled={isLoading} type="submit" className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-									{isLoading ? 'Please wait...' : 'Sign up now'}
-								</button>
-        						<div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-        							Have an account? <Link href="/login" className="text-blue-700 hover:underline dark:text-blue-500">
-        								Login</Link>
-        						</div>
-        		</form>
-        	</div>
+					<button disabled={isLoading} type="submit" className="w-full text-black bg-[#D9D9D9] hover:bg-[#CACACA] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:focus:ring-blue-800">
+						{isLoading ? '•••••' : 'Create account'}
+					</button>
+				</form>
+				<div className="text-sm font-medium mb-5">
+					Alredy have an account? <Link href="/login" className="text-blue-700 hover:underline dark:text-blue-500">
+						Sign In</Link>
+				</div>
+			</div>
         </div>
     )
 }
