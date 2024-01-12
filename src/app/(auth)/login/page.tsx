@@ -22,11 +22,11 @@ export default function LoginPage() {
 				redirect: false,
 				email: e.target.email.value,
 				password: e.target.password.value,
-				callbackUrl: '/dashboard',
+				callbackUrl: '/',
 			})
 			if(!res?.error) {
 				setIsLoading(false)
-				router.push('/dashboard')
+				router.push('/')
 			}
 			else {
 				setIsLoading(false)
