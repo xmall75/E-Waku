@@ -1,3 +1,5 @@
+import Image from "next/image"
+
 export default function Layout({ children }: { children: React.ReactNode }) {
     return (
         <div className="flex flex-row justify-between">
@@ -5,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {children}
             </div>
             <div className="min-w-[865px] max-w-[865px] max-h-screen overflow-hidden">
-                <img src="/pictures/auth-right.png" className="object-cover" alt="" />
+                <Image src="/pictures/auth-right.png" width={865} height={865} className="object-cover" alt="Image right" />
             </div>
         </div>
     )

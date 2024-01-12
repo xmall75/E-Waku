@@ -1,5 +1,6 @@
 'use client'
 
+import Image from "next/image";
 import Link from "next/link"
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -16,7 +17,7 @@ export default function RegisterPage() {
 		setError('')
 		setIsLoading(true)
 
-		const res = await fetch('/api/auth/register', {
+		const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
 			method: 'POST',
 			body: JSON.stringify({
 				fullname: e.target.fullname.value,
@@ -44,7 +45,7 @@ export default function RegisterPage() {
 			
 			<div
 			className="bg-white w-full h-full p-4 sm:p-6 lg:p-8 outline flex flex-col items-center justify-center">
-				<img src="/pictures/auth-logo.png" className="w-16 h-12 object-cover mb-5" alt="" />
+				<Image src="/pictures/auth-logo.png" width={50} height={42} className="w-16 h-12 object-cover mb-5" alt="" />
 				<form className="w-4/5 h-full flex flex-col justify-start" action="#" onSubmit={(e) => handleSubmit(e) }>
 					<h3 className="text-xl font-semibold text-black text-center font-[Poppins]">Get Started for Free</h3>
 					<h4 className="text-sm font-light text-black text-center font-[Poppins] mb-5">Begin your business by creating e-Waku account</h4>

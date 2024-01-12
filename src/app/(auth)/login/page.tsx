@@ -4,6 +4,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { signIn } from "next-auth/react"
 import { useState } from "react"
+import Image from "next/image"
 
 export default function LoginPage() {
 
@@ -47,7 +48,7 @@ export default function LoginPage() {
         <div className="h-screen flex-col max-w-2xl mx-auto flex items-center justify-center">
 			<div
 			className="bg-white w-full h-full p-4 sm:p-6 lg:p-8 outline flex flex-col items-center justify-center">
-				<img src="/pictures/auth-logo.png" className="w-16 h-12 object-cover mb-5" alt="" />
+				<Image src="/pictures/auth-logo.png" width={50} height={42} className="w-16 h-12 object-cover mb-5" alt="Logo" />
 				<form className="w-4/5 h-full flex flex-col justify-start" onSubmit={(e) =>handleLogin(e)}>
 					<h3 className="text-xl font-semibold text-black text-center font-[Poppins]">Welcome back!</h3>
 					<h4 className="text-sm font-light text-black text-center font-[Poppins] mb-5">Please enter your details</h4>
@@ -67,7 +68,7 @@ export default function LoginPage() {
 					</button>
 				</form>
 				<div className="text-sm font-medium mb-5">
-					Don't have an account? <Link href="/register" className="text-blue-700 hover:underline dark:text-blue-500">Sign
+					Don&apos;t have an account? <Link href="/register" className="text-blue-700 hover:underline dark:text-blue-500">Sign
 						Up</Link>
 				</div>
 			</div>
