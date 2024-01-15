@@ -15,7 +15,8 @@ const config: Config = {
       },
     },
     fontFamily: {
-      'Poppins': ['Poppins', 'sans-serif']
+      'Poppins': ['Poppins', 'sans-serif'],
+      'Kadwa': ['Kadwa']
     }
   },
   plugins: [],

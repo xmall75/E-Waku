@@ -48,17 +48,30 @@ export async function POST(request: NextRequest) {
 
     const data = formData.map(normalize(Math.min(...formData), Math.max(...formData)))
 
-    const y_pred = (model.predict(tf.tensor2d([data])) as tf.Tensor)
-    const result = y_pred.max().dataSync()[0]
+    const y_pred = (model.predict(tf.tensor2d([data])) as tf.Tensor).dataSync()
+    // const result = y_pred.max().dataSync()[0]
+    let result = ''
+    let score = 0
+
+    if(y_pred[0] > y_pred[1] && y_pred[0] > y_pred[2]) {
+      score = y_pred[0]
+      result = 'high'
+    }
+    else if(y_pred[1] > y_pred[0] && y_pred[1] > y_pred[2]) {
+      score = y_pred[1]
+      result = 'low'
+    }
+    else {
+      score = y_pred[2]
+      result = 'normal'
+    }
 
 
-    return NextResponse.json({ success: true, message: 'success', data: result});
+    return NextResponse.json({ success: true, message: 'success', data: {
+      score: score, result: result
+    }});
   } catch (error) {
     console.error('Error:', error);
       return NextResponse.json({ success: false, message: 'Internal server error' });
   }
-
-    // LIST TODO NEXT: READ THE DATA HERE AND PREDICT USING
-    // TF JS THEN PASS IT TO GET() AND RETRIEVE THE DATA
-    // ON THE DASHBOARD
 }
