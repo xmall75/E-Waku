@@ -7,7 +7,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 {children}
             </div>
             <div className="min-w-[865px] max-w-[865px] max-h-screen overflow-hidden">
-                <Image src="/pictures/auth-right.png" width={865} height={865} className="object-cover" alt="Image right" />
+                <Image src='/pictures/auth-right.png' width={865} height={865} className="object-cover" alt="Image right" />
             </div>
         </div>
     )
