@@ -1,101 +1,85 @@
 'use client'
 
-import { SessionProvider, signIn, signOut, useSession } from "next-auth/react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
+import { signOut, useSession } from "next-auth/react"
+import { useRouter, usePathname } from "next/navigation"
+import { getUser } from "@/lib/users/service"
 import { useEffect, useState } from "react"
+import Image from "next/image"
+import Link from "next/link"
 
 export default function AdminDashboard() {
     const { data: session, status }: { data: any, status: string, } = useSession()
-    console.log(session)
-    console.log(status)
+
+    const [data, setData]:any = useState()
+    const currentRoute = usePathname()
+
+    const activeStyle = 'flex w-full h-[51px] items-center bg-[#245A78] rounded-lg text-white font-[Poppins]'
+    const nonActiveStyle = 'w-full'
 
     const router = useRouter()
 
+    if(status === 'unauthenticated') {
+        router.push('/login')
+    }
     useEffect(() => {
-        if(status === 'unauthenticated') {
-            router.push('/login')
-        }
-        else {
-            if(session !== undefined && session?.user.role) {
-                console.log(true)
-            }
-        }
-    }, [router, session?.user.role, status, session])
-
-    // console.log(session)
-
-	const [error, setError] = useState('')
-	const [isLoading, setIsLoading] = useState(false)
-
-    const handleSubmit = async (e: any) => {
-		e.preventDefault();
-
-		setError('')
-		setIsLoading(true)
-
-        try {
-      
-            // Make a POST request to the API route to save the data
-            const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/prediction`, {
-              method: 'POST',
-              body: JSON.stringify({
-                fullname: e.target.fullname.value,
-                email: e.target.email.value,
-                password: e.target.password.value,
-              }),
-            });
+        const fetchData = () => {
+            try {
+                const dataPromise = getUser(`${process.env.NEXT_PUBLIC_API_URL}/api/users/?id=${session?.user.email}`)
             
-            if(response) {
-                setIsLoading(false);
-                console.log(response)
+                dataPromise.then((data:any) => {
+                setData(data)
+            });
+    
+            } catch (error) {
+                console.error('Error fetching data:', error)
             }
-            else {
-                setIsLoading(false);
-                console.log(response)
-            }
-
-          } catch (error) {
-            console.error('Error saving data:', error);
-            setError('Error saving data.');
-          }
         };
+    
+        fetchData();
+    }, [session?.user])
 
     return (
         <>
-            <div className="h-screen flex-col max-w-2xl mx-auto flex items-center justify-center">
-		{/* {error !== '' && <p className="font-medium text-md mb-3 text-red-600">{error}</p>} */}
-			
-			<div
-			className="bg-white w-full h-full p-4 sm:p-6 lg:p-8 outline flex flex-col items-center justify-center">
-				<form className="w-4/5 h-full flex flex-col justify-start" action="#" onSubmit={(e) => handleSubmit(e) }>
-					<h3 className="text-xl font-semibold text-black text-center font-[Poppins]">Get Started for Free</h3>
-					<h4 className="text-sm font-light text-black text-center font-[Poppins] mb-5">Begin your business by creating e-Waku account</h4>
-					<div className="w-full h-10 mt-10">
-						{error !== '' && <h4 className="text-red-600 font-medium text-md text-center">{error}</h4>}
-					</div>
-					<div className="mb-5 mt-5">
-						<label htmlFor="fullname" className="text-sm text-gray-900 block mb-1 font-[Poppins]">Fullname</label>
-						<input type="text" name="fullname" id="fullname" className="border-b border-gray-800 text-slate-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1" placeholder="Rep Randolvski" required />
-					</div>
-					<div className="mb-5">
-						<label htmlFor="email" className="text-sm text-gray-900 block mb-1 font-[Poppins]">Email</label>
-						<input type="email" name="email" id="email" className="border-b border-gray-800 text-slate-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1" placeholder="name@company.com" required />
-                    </div>
-					<div className="mb-5">
-						<label htmlFor="password" className="text-sm text-gray-900 block mb-1 font-[Poppins]">Password</label>
-						<input type="password" name="password" id="password" placeholder="••••••••" className="border-b border-gray-800 text-slate-900 sm:text-sm focus:ring-blue-500 focus:border-blue-500 block w-full py-1" required />
-                    </div>
-					<button disabled={isLoading} type="submit" className="w-full text-black bg-[#D9D9D9] hover:bg-[#CACACA] focus:ring-4 focus:ring-blue-300 font-medium text-sm px-5 py-2.5 text-center dark:focus:ring-blue-800">
-						{isLoading ? '•••••' : 'Create account'}
-					</button>
-				</form>
-				<div className="text-sm font-medium mb-5">
-					Alredy have an account? <Link href="/login" className="text-blue-700 hover:underline dark:text-blue-500">
-						Sign In</Link>
-				</div>
-			</div>
+        {/* {data && <div>{data.data.budget}</div>} */}
+        <div className="bg-[#F3F5F9] px-10 gap-3 w-full h-16 flex items-center justify-between font-[Kadwa]">
+            <div className="flex items-center gap-5">
+                <Image className="pb-1" alt="banner" src="/pictures/auth-logo.png" width={30} height={30} />
+                e-Waku
+            </div>
+            <div className="rounded-full w-[30px] h-[30px] relative overflow-hidden cursor-pointer" onClick={() => signOut()}>
+                <Image className="absolute" src='/pictures/profile.png' width={30} height={30} alt="profile" />
+            </div>
         </div>
+
+        <div className="flex w-full min-h-screen bg-[#F3F5F9] p-5 gap-5">
+            <div className="w-1/5 h-[359px] bg-white rounded-lg flex flex-col gap-5">
+                <Link className={currentRoute === '/dashboard' 
+                    ? activeStyle 
+                    : nonActiveStyle}
+                    href='/dashboard'>
+                    <div className="w-full flex items-center h-[51px] px-5 rounded-lg">
+                        Estimation
+                    </div>
+                </Link>
+                <Link className={currentRoute === '/recommendation' 
+                    ? activeStyle 
+                    : nonActiveStyle}
+                    href='/recommendations'>
+                    <div className="w-full flex items-center h-[51px] px-5 rounded-lg">
+                        Recommendation
+                    </div>
+                </Link>
+                <Link className={currentRoute === '/stats' 
+                    ? activeStyle 
+                    : nonActiveStyle}
+                    href='/stats'>
+                    <div className="w-full flex items-center h-[51px] px-5 rounded-lg">
+                        Statistics
+                    </div>
+                </Link>
+            </div>
+            <div className="flex flex-col  w-full rounded-lg bg-white"></div>
+        </div>   
         </>
     )
 }

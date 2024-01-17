@@ -125,7 +125,12 @@ export async function POST(request: NextRequest) {
       estimationBudget: estimationBudget,
       budget: req.budget,
       feeding_cycle: req.feeding_cycle,
-      poor_water: req.poor_water
+      poor_water: req.poor_water,
+      fish_type: req.fish_type,
+      land_area: req.land_area,
+      food_type: req.food_type,
+      total_ponds: req.total_ponds,
+      food_ratio: req.food_ratio,
     })
 
     return NextResponse.json({ success: true, message: 'success', data: {

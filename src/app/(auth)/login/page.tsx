@@ -27,7 +27,7 @@ export default function LoginPage() {
 			})
 			if(!res?.error) {
 				setIsLoading(false)
-				router.push('/')
+				router.push('/dashboard')
 			}
 			else {
 				setIsLoading(false)

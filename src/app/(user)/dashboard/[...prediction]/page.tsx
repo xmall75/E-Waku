@@ -193,6 +193,11 @@ export default function PredictionPage(
 			method: 'POST',
 			body: JSON.stringify({
                 email: session.user.email,
+                fish_type: params.prediction[1],
+                land_type: params.prediction[2],
+                land_area: Number(params.prediction[3]),
+                food_type: params.prediction[6],
+
                 food_ratio: food_ratio,
                 total_seeds: seeds,
                 budget: Number(e.target.budget.value),	
@@ -235,12 +240,12 @@ export default function PredictionPage(
     return (
         <>
             <div className="px-10 gap-3 w-full h-16 flex items-center justify-left font-[Kadwa]">
-                <Image alt="banner" src="/pictures/auth-logo.png" width={62} height={53} />
+                <Image alt="banner" src="/pictures/auth-logo.png" width={30} height={30} />
                 e-Waku
             </div>
             <div className="flex w-full px-36">
                 {/* fish type */}
-                {!params.prediction[1] && params.prediction[0] && (
+                {!params.prediction[1] && params.prediction[0] == 'prediction' && (
                     <>
                     <Image alt="banner" src="/pictures/kuis-banner.png" width={400} height={598} />
                     <div className="w-full py-12 pl-28">

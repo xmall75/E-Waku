@@ -20,6 +20,37 @@ export async function retrieveDataById(collectionName: string, id: string) {
     return data
 }
 
+export async function getUserByEmail(email: any) {
+    try {
+        const q = query(
+        collection(firestore, 'prediction'),
+        where('email', '==', email)
+        )
+
+        const snapshot = await getDocs(q)
+        const users = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+        }))
+
+        if(users.length > 0) {
+            const getData = await getDoc(doc(firestore, 'prediction', users[0].id))
+            const data = getData.data()
+
+            return data
+        }
+        else {
+            return {
+                status: 404,
+                message: 'No users found',
+            }
+        }
+    }
+    catch (err) {
+        
+    }
+}
+
 export async function storePrediction(
     data: {
         email: string,
@@ -28,7 +59,12 @@ export async function storePrediction(
         estimationBudget?: number,
         budget?: number,
         feeding_cycle?: number,
-        poor_water?: boolean
+        poor_water?: number,
+        fish_type?: string,
+        land_area?: number,
+        food_type?: string,
+        total_ponds?: number,
+        food_ratio?: number,
     }
 ) {
     try {
@@ -116,18 +152,18 @@ export async function register(
         }
         else {
             try {
-                await addDoc(collection(firestore, 'prediction'), data)
+                await addDoc(collection(firestore, 'users'), data)
                 return {
                     status: true,
                     statusCode: 200,
-                    message: 'store success'
+                    message: 'register success'
                 }
             }
             catch(err) {
                 return {
                     status: false,
                     statusCode: 400,
-                    message: 'store failed',
+                    message: 'register failed',
                 }
             }
         }
