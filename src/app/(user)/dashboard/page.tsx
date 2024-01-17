@@ -38,6 +38,11 @@ export default function AdminDashboard() {
         fetchData();
     }, [session?.user])
 
+    const formattedPrice = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(data?.data.budget)
+
     return (
         <>
         {/* {data && <div>{data.data.budget}</div>} */}
@@ -78,7 +83,47 @@ export default function AdminDashboard() {
                     </div>
                 </Link>
             </div>
-            <div className="flex flex-col  w-full rounded-lg bg-white"></div>
+            <div className="flex flex-col gap-5 w-full rounded-lg">
+                <div className="h-[121px] flex p-5 gap-5 rounded-lg bg-white items-center">
+                        {data?.data?.budget ? (
+                            <>
+                            <div className="rounded-lg w-[57px] h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                <Image src="/pictures/budget.png" alt="budget" width={30} height={30} />
+                                </div>
+                                <div>
+                            <h3 className="font-[Poppins] font-semibold text-md mb-2">Budget</h3>
+                            <h4 className="font-[Poppins] text-sm">
+                            Rp. {data.data.budget}</h4>
+                            </div>
+                            </>) 
+                            : 
+                            (<>
+                            <h4 className="font-[Poppins] text-sm">You haven't submit the prediction yet.</h4>
+                            </>)}
+                </div>
+                <div className="h-full bg-white rounded-lg p-5">
+                    {
+                        data?.data?.budget ? (
+                            <>
+                                <div>
+
+                                </div>
+                            </>
+                        ):(
+                            <>
+                                <div>
+                                    Let's jump into the prediction page.
+                                    <Link href='/dashboard/prediction'>
+                                        <div className="text-white flex items-center justify-center font-[Poppins] font-medium mt-3 rounded-lg h-[40px] w-[120px] bg-[#245A78]">
+                                            Get Started
+                                        </div>
+                                    </Link>
+                                </div>
+                            </>
+                        )
+                    }
+                </div>
+            </div>
         </div>   
         </>
     )

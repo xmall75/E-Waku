@@ -226,7 +226,7 @@ export default function PredictionPage(
                 setPredictionScore(data.data)
                 setIsLoading(false)
 
-                // router.push(`/dashboard`)
+                router.push(`/dashboard`)
             }))
         }
         else {

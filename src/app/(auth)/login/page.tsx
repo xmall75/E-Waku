@@ -48,7 +48,7 @@ export default function LoginPage() {
         <div className="h-screen flex-col max-w-2xl mx-auto flex items-center justify-center">
 			<div
 			className="bg-white w-full h-full p-4 sm:p-6 lg:p-8 outline flex flex-col items-center justify-center">
-				<Image src="/pictures/auth-logo.png" width={50} height={42} className="w-16 h-12 object-cover mb-5" alt="Logo" />
+				<Image src="/pictures/auth-logo.png" width={42} height={42} className="mb-5" alt="Logo" />
 				<form className="w-4/5 h-full flex flex-col justify-start" onSubmit={(e) =>handleLogin(e)}>
 					<h3 className="text-xl font-semibold text-black text-center font-[Poppins]">Welcome back!</h3>
 					<h4 className="text-sm font-light text-black text-center font-[Poppins] mb-5">Please enter your details</h4>
