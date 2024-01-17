@@ -4,7 +4,6 @@ import { SessionProvider, signIn, signOut, useSession } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
-import { predictionResult } from "./[...prediction]/page"
 
 export default function AdminDashboard() {
     const { data: session, status }: { data: any, status: string, } = useSession()
@@ -62,10 +61,8 @@ export default function AdminDashboard() {
           }
         };
 
-        console.log(predictionResult)
-
     return (
-        <> {predictionResult}
+        <>
             <div className="h-screen flex-col max-w-2xl mx-auto flex items-center justify-center">
 		{/* {error !== '' && <p className="font-medium text-md mb-3 text-red-600">{error}</p>} */}
 			

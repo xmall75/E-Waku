@@ -32,8 +32,6 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useSession } from "next-auth/react"
 
-let predictionResult:any
-
 export default function PredictionPage(
     props: PredictionProps,
 ) {
@@ -223,9 +221,6 @@ export default function PredictionPage(
                 setPredictionScore(data.data)
                 setIsLoading(false)
 
-                predictionResult = data.data
-                console.log(predictionResult)
-
                 // router.push(`/dashboard`)
             }))
         }
@@ -411,5 +406,3 @@ export default function PredictionPage(
         </>
     )
 }
-
-export { predictionResult }
