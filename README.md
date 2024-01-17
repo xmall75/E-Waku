@@ -9,14 +9,40 @@ Members:<br />
 
 Current feature(s):
 - Authentication with Firebase
-
-![image](https://github.com/xmall75/E-Waku/assets/34641833/1ee3f989-d246-42cb-8098-9e9cee38cd4d)
-
-![image](https://github.com/xmall75/E-Waku/assets/34641833/04391972-69b9-4229-8787-17b24e036571)
+- Success Rate Forecast with Tensorflow
 
 Upcoming feature(s):
 - Subscription for more features for users
-- Success Probability Forecast with Tensorflow
+
+# How to run:
+1. Clone this repo.
+2. This project is using Next, make sure you have npm installed on your device.
+3. If there are some errors related to **unknown modules**, please install Firebase, Tensorflow.js, and bcrypt first.
+```
+$ npm install @tensorflow/tfjs
+```
+```
+$ npm install firebase
+```
+```
+$ npm install bcrypt
+```
+4. Make sure you have a Firebase project on your Firebase console.
+5. Get a Firebase config and put it on a file named .env.local:
+```
+FIREBASE_API_KEY=YOUR_API_KEY
+FIREBASE_AUTH_DOMAIN=YOUR_AUTH_DOMAIN
+FIREBASE_DATABASE_URL=YOUR_DATABASE_URL
+FIREBASE_PROJECT_ID=YOUR_PROJECT_ID
+FIREBASE_STORAGE_BUCKET=YOUR_STORAGE_BUCKET
+FIREBASE_SENDER_ID=YOUR_SENDER_ID
+FIREBASE_APP_ID=YOUR_APP_ID
+FIREBASE_MEASUREMENT_ID=YOUR_MEASUREMENT_ID
+
+NEXT_PUBLIC_API_URL=YOUR_LOCAL_URL
+NEXT_AUTH_SECRET=YOUR_TOKEN (basically this one is optional, you can leave it with 123 or anything)
+```
+6. Then you can run the project by executing `npm run dev`. If there is an error and you can't solve it, we have deployed our project into a web app that you can check at the end of this file.
 
 <br />
 Web deployment:<br />
