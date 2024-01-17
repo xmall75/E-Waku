@@ -26,10 +26,11 @@ type PredictionProps = {
     }
 }
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useSession } from "next-auth/react"
 
 let predictionResult:any
 
@@ -38,6 +39,19 @@ export default function PredictionPage(
 ) {
     const { params } = props
     const router = useRouter()
+
+    const { data: session, status }: { data: any, status: string, } = useSession()
+
+    useEffect(() => {
+        if(status === 'unauthenticated') {
+            router.push('/login')
+        }
+        else {
+            if(session !== undefined && session?.user.type === 'free') {
+                router.push('/dashboard')
+            }
+        }
+    }, [router, session?.user.type, status, session])
 
     const [ predictionScore, setPredictionScore ] = useState<any>()
     const [ isLoading, setIsLoading ] = useState(false)
@@ -51,7 +65,7 @@ export default function PredictionPage(
         food_type_hiprovite_781_1: any = 0,
         food_type_hiprovite_781_2: any = 0,
         food_type_hiprovite_782: any = 0,
-        feeding_frequency: any,
+        feeding_cycle: any,
         land_area: any, seeds: any, budget: any,
         total_ponds: any, poor_water: any, food_ratio: any
 
@@ -170,7 +184,7 @@ export default function PredictionPage(
         }
 
         if(params.prediction[8]) {
-            feeding_frequency = Number(params.prediction[8])
+            feeding_cycle = Number(params.prediction[8])
         }
 
         if(params.prediction[9]) {
@@ -180,6 +194,7 @@ export default function PredictionPage(
         const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/prediction`, {
 			method: 'POST',
 			body: JSON.stringify({
+                email: session.user.email,
                 food_ratio: food_ratio,
                 total_seeds: seeds,
                 budget: Number(e.target.budget.value),	
@@ -198,7 +213,7 @@ export default function PredictionPage(
                 food_type_hiprovite_782: food_type_hiprovite_782,
                 total_ponds: total_ponds,
                 poor_water: poor_water,
-                feeding_frequency: feeding_frequency,
+                feeding_cycle: feeding_cycle,
 			})
 		})
         if(res.status === 200) {
@@ -211,7 +226,7 @@ export default function PredictionPage(
                 predictionResult = data.data
                 console.log(predictionResult)
 
-                // router.push(`/dashboard/prediction/${params.prediction[1]}/${params.prediction[2]}/${params.prediction[3]}/${params.prediction[4]}/${params.prediction[5]}/${params.prediction[6]}/${e.target.seeds.value}/result`)
+                // router.push(`/dashboard`)
             }))
         }
         else {

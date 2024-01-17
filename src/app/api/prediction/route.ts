@@ -55,11 +55,6 @@ export async function POST(request: NextRequest) {
       hiprovite_782:	14400,
     }
 
-    const supportComponents = {
-      ph: 51500,
-      amonia: 175000
-    }
-
     let days: number = 0
 
     if(req.fish_lele === 1) {
@@ -72,19 +67,24 @@ export async function POST(request: NextRequest) {
       days = 120
     }
 
-    const feedFormula = req.total_seeds * 0.95 * 0.03 * days
+    const supportComponents = {
+      ph: 51500 * days/90,
+      amonia: 175000
+    }
+
+    const feedFormula = req.total_seeds * 0.95 * 0.03 // each day
     console.log(days)
 
     const estimationBudget = req.fish_gurame*dataPrice.fish_gurame*req.total_seeds
                             + req.fish_lele*dataPrice.fish_lele*req.total_seeds
                             + req.fish_nila*dataPrice.fish_nila*req.total_seeds 
-                            + req.food_type_lp1*dataPrice.lp1*(req.food_ratio/100)*feedFormula
-                            + req.food_type_lp2*dataPrice.lp2*(req.food_ratio/100)
-                            + req.food_type_lp3*dataPrice.lp3*(req.food_ratio/100)
-                            + req.food_type_hiprovite_781*dataPrice.hiprovite_781*(req.food_ratio/100)
-                            + req.food_type_hiprovite_781_1*dataPrice.hiprovite_781_1*(req.food_ratio/100)
-                            + req.food_type_hiprovite_781_2*dataPrice.hiprovite_781_2*(req.food_ratio/100)
-                            + req.food_type_hiprovite_782*dataPrice.hiprovite_782*(req.food_ratio/100)
+                            + req.food_type_lp1*dataPrice.lp1*(req.food_ratio/100)*feedFormula*days
+                            + req.food_type_lp2*dataPrice.lp2*(req.food_ratio/100)*feedFormula*days
+                            + req.food_type_lp3*dataPrice.lp3*(req.food_ratio/100)*feedFormula*days
+                            + req.food_type_hiprovite_781*dataPrice.hiprovite_781*(req.food_ratio/100)*feedFormula*days
+                            + req.food_type_hiprovite_781_1*dataPrice.hiprovite_781_1*(req.food_ratio/100)*feedFormula*days
+                            + req.food_type_hiprovite_781_2*dataPrice.hiprovite_781_2*(req.food_ratio/100)*feedFormula*days
+                            + req.food_type_hiprovite_782*dataPrice.hiprovite_782*(req.food_ratio/100)*feedFormula*days
                             + supportComponents.ph + supportComponents.amonia
 
     console.log(feedFormula)
@@ -93,7 +93,6 @@ export async function POST(request: NextRequest) {
 
     const model = await tf.loadLayersModel(
       `${process.env.NEXT_PUBLIC_API_URL}/model/model.json`)
-
 
     const data = formData.map(normalize(Math.min(...formData), Math.max(...formData)))
 
@@ -120,10 +119,13 @@ export async function POST(request: NextRequest) {
     }
 
     const res = await storePrediction({
-      userId: 'n5fkSAuaUGmH3l4swZzY',
+      email: req.email,
       score: score,
       result: result,
-      estimationBudget: estimationBudget
+      estimationBudget: estimationBudget,
+      budget: req.budget,
+      feeding_cycle: req.feeding_cycle,
+      poor_water: req.poor_water
     })
 
     return NextResponse.json({ success: true, message: 'success', data: {

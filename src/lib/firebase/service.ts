@@ -22,35 +22,57 @@ export async function retrieveDataById(collectionName: string, id: string) {
 
 export async function storePrediction(
     data: {
-        userId: string,
+        email: string,
         score?: number,
         result?: string,
-        estimationBudget?: number
+        estimationBudget?: number,
+        budget?: number,
+        feeding_cycle?: number,
+        poor_water?: boolean
     }
 ) {
     try {
-        const userRef = doc(firestore, 'users', data.userId)
-        const userDoc = await getDoc(userRef)
+        const q = query(
+            collection(firestore, 'prediction'),
+            where('email', '==', data.email)
+        )
+    
+        const snapshot = await getDocs(q)
+        const users = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+        }))
 
-        if (userDoc.exists()) {
-            const userData = userDoc.data()
+        // const userRef = doc(firestore, 'users', data.userId)
+        // const userDoc = await getDoc(userRef)
 
-            userData.score = data.score
-            userData.result = data.result
-            userData.estimationBudget = data.estimationBudget
+        if(users.length > 0) {
+            // return users
+            const userRef = doc(firestore, 'prediction', users[0].id)
 
-            await updateDoc(userRef, userData)
+            await updateDoc(userRef, data)
 
             return {
                 status: true,
                 statusCode: 200,
                 message: 'User updated successfully',
             }
-        } else {
-            return {
-                status: false,
-                statusCode: 404,
-                message: 'User not found',
+        }
+        else {
+            try {
+                await addDoc(collection(firestore, 'prediction'), data)
+                return {
+                    status: true,
+                    statusCode: 200,
+                    message: 'register success'
+                }
+            }
+            catch(err) {
+                return {
+                    status: false,
+                    statusCode: 400,
+                    message: 'register failed',
+                }
             }
         }
     } catch (err) {
@@ -93,24 +115,19 @@ export async function register(
             }
         }
         else {
-            data.type = 'free',
-            data.score = 0,
-            data.result = 'unknown'
-            data.password = await bcrypt.hash(data.password, 10)
-            
             try {
-                await addDoc(collection(firestore, 'users'), data)
+                await addDoc(collection(firestore, 'prediction'), data)
                 return {
                     status: true,
                     statusCode: 200,
-                    message: 'register success'
+                    message: 'store success'
                 }
             }
             catch(err) {
                 return {
                     status: false,
                     statusCode: 400,
-                    message: 'register failed',
+                    message: 'store failed',
                 }
             }
         }
