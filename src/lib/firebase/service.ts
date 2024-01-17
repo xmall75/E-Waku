@@ -1,4 +1,4 @@
-import { collection, doc, getDocs, addDoc, getDoc, getFirestore, query, where } from "firebase/firestore"
+import { collection, doc, getDocs, addDoc, getDoc, getFirestore, query, where, updateDoc } from "firebase/firestore"
 import app from "./init"
 import bcrypt from 'bcrypt'
 
@@ -20,12 +20,57 @@ export async function retrieveDataById(collectionName: string, id: string) {
     return data
 }
 
+export async function storePrediction(
+    data: {
+        userId: string,
+        score?: number,
+        result?: string,
+        estimationBudget?: number
+    }
+) {
+    try {
+        const userRef = doc(firestore, 'users', data.userId)
+        const userDoc = await getDoc(userRef)
+
+        if (userDoc.exists()) {
+            const userData = userDoc.data()
+
+            userData.score = data.score
+            userData.result = data.result
+            userData.estimationBudget = data.estimationBudget
+
+            await updateDoc(userRef, userData)
+
+            return {
+                status: true,
+                statusCode: 200,
+                message: 'User updated successfully',
+            }
+        } else {
+            return {
+                status: false,
+                statusCode: 404,
+                message: 'User not found',
+            }
+        }
+    } catch (err) {
+        console.error('Error in changeUser function:', err)
+        return {
+            status: false,
+            statusCode: 500,
+            message: 'Internal Server Error (unexpected)',
+        }
+    }
+}
+
 export async function register(
     data: {
         fullname: string,
         email: string,
         password: string,
         type?: string,
+        score?: number,
+        result?: string,
     },
 ) {
     try {
@@ -49,6 +94,8 @@ export async function register(
         }
         else {
             data.type = 'free',
+            data.score = 0,
+            data.result = 'unknown'
             data.password = await bcrypt.hash(data.password, 10)
             
             try {
