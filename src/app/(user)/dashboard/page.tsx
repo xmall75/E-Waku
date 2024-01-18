@@ -48,20 +48,23 @@ export default function AdminDashboard() {
         currency: 'IDR',
     }).format(data?.data.estimationBudget)
 
-    let bgColor, resultTitle, resultText
+    let bgColor, resultTitle, resultText, img
 
     if(data?.data?.estimationBudget > data?.data?.budget) {
+        img = 'result_low.png'
         bgColor = 'bg-[#F69999]'
         resultTitle = 'Unfortunately, your success rate is low'
         resultText = 'To succeed your fish farming production, you need to change your strategy.'
     }
     else {
         if (data?.data?.result === 'high') {
+            img = 'result_normal.png'
             bgColor = 'bg-[#99F69D]'
             resultTitle = 'Congratulations! your success rate is high'
             resultText = 'Great! Your strategy is already enough to make your fish farming success.'
         }
         else if (data?.data?.result === 'normal') {
+            img = 'result_high.png'
             bgColor = 'bg-[#F6D199]'
             resultTitle = 'Based on your strategy, your success rate is normal'
             resultText = 'It is okay to implement your strategy, but another improvement will be needed.'
@@ -226,7 +229,7 @@ export default function AdminDashboard() {
                                 </div>
                                 <div className="flex gap-5 items-center mb-8">
                                     <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
-                                        <Image src="/pictures/food_ratio.png" alt="budget" width={30} height={30} />
+                                        <Image src="/pictures/seeds.png" alt="budget" width={30} height={30} />
                                     </div>
                                     <div className="border-b border-black w-full pb-2">
                                         <h3 className="font-[Poppins] font-semibold text-md mb-1">Seeds</h3>
@@ -237,7 +240,7 @@ export default function AdminDashboard() {
                                 </div>
                                 <div className="flex gap-5 items-center">
                                     <div className={`rounded-lg w-full min-h-[57px] ${bgColor} flex items-center gap-10 justify-left p-7`}>
-                                        <Image src="/pictures/result.png" alt="budget" width={90} height={90} />
+                                        <Image src={`/pictures/${img}`} alt="budget" width={90} height={90} />
                                     
                                         <div className="w-3/4">
                                             <h3 className="font-[Poppins] text-2xl font-bold text-md mb-1">
