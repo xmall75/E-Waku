@@ -83,9 +83,9 @@ export async function storePrediction(
 
         if(users.length > 0) {
             // return users
-            const userRef = doc(firestore, 'prediction', users[0].id)
+            const userRef = await doc(firestore, 'prediction', users[0].id)
 
-            await updateDoc(userRef, data)
+            updateDoc(userRef, data)
 
             return {
                 status: true,

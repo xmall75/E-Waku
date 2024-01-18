@@ -36,17 +36,17 @@ export default function AdminDashboard() {
         };
     
         fetchData();
-    }, [session?.user.email])
+    }, [session?.user])
 
-    // const budget = new Intl.NumberFormat('en-US', {
-    //     style: 'currency',
-    //     currency: 'IDR',
-    // }).format(data?.data.budget)
+    const budget = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(data?.data.budget)
 
-    // const estimationBudget = new Intl.NumberFormat('en-US', {
-    //     style: 'currency',
-    //     currency: 'IDR',
-    // }).format(data?.data.estimationBudget)
+    const estimationBudget = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(data?.data.estimationBudget)
 
     let bgColor, resultTitle, resultText
 
@@ -56,19 +56,17 @@ export default function AdminDashboard() {
         resultText = 'To succeed your fish farming production, you need to change your strategy.'
     }
     else {
-        if (data?.data.result === 'high') {
+        if (data?.data?.result === 'high') {
             bgColor = 'bg-[#99F69D]'
             resultTitle = 'Congratulations! your success rate is high'
             resultText = 'Great! Your strategy is already enough to make your fish farming success.'
         }
-        else if (data?.data.result === 'normal') {
+        else if (data?.data?.result === 'normal') {
             bgColor = 'bg-[#F6D199]'
             resultTitle = 'Based on your strategy, your success rate is normal'
             resultText = 'It is okay to implement your strategy, but another improvement will be needed.'
         }
     }
-
-    // console.log(result)
 
     return (
         <>
@@ -120,12 +118,12 @@ export default function AdminDashboard() {
                             <div className="w-1/3">
                                 <h3 className="font-[Poppins] font-semibold text-md mb-2">Budget</h3>
                                 <h4 className="font-[Poppins] text-sm">
-                                Rp. {data.data.budget}</h4>
+                                {budget}</h4>
                             </div>
                             <div className="w-1/2">
                                 <h3 className="font-[Poppins] font-semibold text-md mb-2">Estimation Budget You Needed</h3>
                                 <h4 className="font-[Poppins] text-sm">
-                                {data.data.estimationBudget}</h4>
+                                {estimationBudget}</h4>
                             </div>
                             <div>
                                 <Link href="/dashboard/prediction">
