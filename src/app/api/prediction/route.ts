@@ -5,11 +5,13 @@ import { storePrediction } from "@/lib/firebase/service";
 export async function POST(request: NextRequest) {
   tf.disposeVariables()
 
-  function normalize(min: number, max: number) {
-    const delta: number = max - min;
-    return function (val: number) {
-        return (val - min) / delta;
-    }
+  function normalize(data:any) {
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+
+    const scaledArray = data.map((value:any) => (value - min) / (max - min));
+
+    return scaledArray;
   }
 
   try {
@@ -90,15 +92,16 @@ export async function POST(request: NextRequest) {
     console.log(feedFormula)
     console.log(estimationBudget)
     console.log(req)
+    console.log(formData)
 
     const model = await tf.loadLayersModel(
       `${process.env.NEXT_PUBLIC_API_URL}/model/model.json`)
 
-    const data = formData.map(normalize(Math.min(...formData), Math.max(...formData)))
+    const data:any = normalize(formData)
 
-    console.log('normalized : ' + data)
+    // console.log('normalized : ' + data)
 
-    const y_pred = (model.predict(tf.tensor2d([data])) as tf.Tensor).dataSync()
+    const y_pred = (model.predict(tf.tensor2d([formData])) as tf.Tensor).dataSync()
     // const result = y_pred.max().dataSync()[0]
     let result = ''
     let score = 0

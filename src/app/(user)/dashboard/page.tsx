@@ -50,21 +50,25 @@ export default function AdminDashboard() {
 
     let bgColor, resultTitle, resultText
 
-    if (data?.data.result === 'high') {
-        bgColor = 'bg-[#99F69D]'
-        resultTitle = 'Congratulations! your success rate is 90%'
-        resultText = ''
-    }
-    else if (data?.data.result === 'normal') {
-        bgColor = 'bg-[#F6D199]'
-        resultTitle = ''
-        resultText = ''
-    }
-    else if (data?.data.result === 'low') {
+    if(data?.data.estimationBudget > data?.data.budget) {
         bgColor = 'bg-[#F69999]'
         resultTitle = 'Unfortunately, your success rate is low'
         resultText = 'To succeed your fish farming production, you need to change your strategy.'
     }
+    else {
+        if (data?.data.result === 'high') {
+            bgColor = 'bg-[#99F69D]'
+            resultTitle = 'Congratulations! your success rate is high'
+            resultText = 'Great! Your strategy is already enough to make your fish farming success.'
+        }
+        else if (data?.data.result === 'normal') {
+            bgColor = 'bg-[#F6D199]'
+            resultTitle = 'Based on your strategy, your success rate is normal'
+            resultText = 'It is okay to implement your strategy, but another improvement will be needed.'
+        }
+    }
+
+    // console.log(result)
 
     return (
         <>
@@ -133,7 +137,7 @@ export default function AdminDashboard() {
                             </>) 
                             : 
                             (<>
-                            <h4 className="font-[Poppins] text-sm">You haven't submit the prediction yet.</h4>
+                            <h4 className="font-[Poppins] text-sm">You haven&apos;t submit the prediction yet.</h4>
                             </>)}
                 </div>
                 <div className="h-full bg-white rounded-lg p-10">
@@ -239,10 +243,10 @@ export default function AdminDashboard() {
                                     
                                         <div className="w-3/4">
                                             <h3 className="font-[Poppins] text-2xl font-bold text-md mb-1">
-                                                Based on your strategy, your success rate is 50%
+                                                {resultTitle}
                                             </h3>
                                             <h4 className="font-[Poppins] text-md">
-                                                Test
+                                                {resultText}
                                             </h4>
                                         </div>
 
@@ -252,12 +256,10 @@ export default function AdminDashboard() {
                         ):(
                             <>
                                 <div>
-                                    Let's jump into the prediction page.
-                                    <Link href='/dashboard/prediction'>
-                                        <div className="text-white flex items-center justify-center font-[Poppins] font-medium mt-3 rounded-lg h-[40px] w-[120px] bg-[#245A78]">
-                                            Get Started
-                                        </div>
-                                    </Link>
+                                    Let&apos;s jump into the prediction page.
+                                    <div onClick={() => (router.push('/dashboard/prediction'))} className="cursor-pointer text-white flex items-center justify-center font-[Poppins] font-medium mt-3 rounded-lg h-[40px] w-[120px] bg-[#245A78]">
+                                        Get Started
+                                    </div>
                                 </div>
                             </>
                         )

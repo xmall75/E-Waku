@@ -81,9 +81,6 @@ export async function storePrediction(
             ...doc.data()
         }))
 
-        // const userRef = doc(firestore, 'users', data.userId)
-        // const userDoc = await getDoc(userRef)
-
         if(users.length > 0) {
             // return users
             const userRef = doc(firestore, 'prediction', users[0].id)
@@ -129,8 +126,6 @@ export async function register(
         email: string,
         password: string,
         type?: string,
-        score?: number,
-        result?: string,
     },
 ) {
     try {
@@ -154,6 +149,9 @@ export async function register(
         }
         else {
             try {
+                data.type = 'free'
+                data.password = await bcrypt.hash(data.password, 10)
+
                 await addDoc(collection(firestore, 'users'), data)
                 return {
                     status: true,
