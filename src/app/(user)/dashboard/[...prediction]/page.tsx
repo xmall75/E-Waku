@@ -404,6 +404,7 @@ export default function PredictionPage(
                                 <button type="submit"><Image src="/pictures/kuis-next.png" alt="next button" width={73} height={73} /></button>
                             </div>
                         </form>    
+                        {isLoading && 'Please wait ...'}
                     </div>
                     </>
                 )}

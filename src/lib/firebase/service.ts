@@ -65,6 +65,8 @@ export async function storePrediction(
         food_type?: string,
         total_ponds?: number,
         food_ratio?: number,
+        land_type?: string,
+        total_seeds?: number,
     }
 ) {
     try {

@@ -131,6 +131,8 @@ export async function POST(request: NextRequest) {
       food_type: req.food_type,
       total_ponds: req.total_ponds,
       food_ratio: req.food_ratio,
+      land_type: req.land_type,
+      total_seeds: req.total_seeds,
     })
 
     return NextResponse.json({ success: true, message: 'success', data: {

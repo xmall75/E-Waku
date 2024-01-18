@@ -38,10 +38,33 @@ export default function AdminDashboard() {
         fetchData();
     }, [session?.user])
 
-    const formattedPrice = new Intl.NumberFormat('en-US', {
+    const budget = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'IDR',
     }).format(data?.data.budget)
+
+    const estimationBudget = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'IDR',
+    }).format(data?.data.estimationBudget)
+
+    let bgColor, resultTitle, resultText
+
+    if (data?.data.result === 'high') {
+        bgColor = 'bg-[#99F69D]'
+        resultTitle = 'Congratulations! your success rate is 90%'
+        resultText = ''
+    }
+    else if (data?.data.result === 'normal') {
+        bgColor = 'bg-[#F6D199]'
+        resultTitle = ''
+        resultText = ''
+    }
+    else if (data?.data.result === 'low') {
+        bgColor = 'bg-[#F69999]'
+        resultTitle = 'Unfortunately, your success rate is low'
+        resultText = 'To succeed your fish farming production, you need to change your strategy.'
+    }
 
     return (
         <>
@@ -84,16 +107,28 @@ export default function AdminDashboard() {
                 </Link>
             </div>
             <div className="flex flex-col gap-5 w-full rounded-lg">
-                <div className="h-[121px] flex p-5 gap-5 rounded-lg bg-white items-center">
+                <div className="h-[121px] flex p-10 gap-5 rounded-lg bg-white items-center">
                         {data?.data?.budget ? (
                             <>
-                            <div className="rounded-lg w-[57px] h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                            <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
                                 <Image src="/pictures/budget.png" alt="budget" width={30} height={30} />
                                 </div>
-                                <div>
-                            <h3 className="font-[Poppins] font-semibold text-md mb-2">Budget</h3>
-                            <h4 className="font-[Poppins] text-sm">
-                            Rp. {data.data.budget}</h4>
+                            <div className="w-1/3">
+                                <h3 className="font-[Poppins] font-semibold text-md mb-2">Budget</h3>
+                                <h4 className="font-[Poppins] text-sm">
+                                Rp. {budget}</h4>
+                            </div>
+                            <div className="w-1/2">
+                                <h3 className="font-[Poppins] font-semibold text-md mb-2">Estimation Budget You Needed</h3>
+                                <h4 className="font-[Poppins] text-sm">
+                                Rp. {estimationBudget}</h4>
+                            </div>
+                            <div>
+                                <Link href="/dashboard/prediction">
+                                    <div className="text-white flex items-center justify-center font-[Poppins] font-medium rounded-lg h-[40px] w-[120px] bg-[#245A78]">
+                                        Predict
+                                    </div>
+                                </Link>
                             </div>
                             </>) 
                             : 
@@ -101,12 +136,117 @@ export default function AdminDashboard() {
                             <h4 className="font-[Poppins] text-sm">You haven't submit the prediction yet.</h4>
                             </>)}
                 </div>
-                <div className="h-full bg-white rounded-lg p-5">
+                <div className="h-full bg-white rounded-lg p-10">
                     {
                         data?.data?.budget ? (
                             <>
-                                <div>
+                                <div className="flex gap-5 items-center mb-8">
+                                    <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                        <Image src="/pictures/fish_type.png" alt="budget" width={30} height={30} />
+                                    </div>
+                                    <div className="border-b border-black w-full pb-2">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Fish Type</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.fish_type.charAt(0).toUpperCase() + data.data.fish_type.slice(1)}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="flex gap-5 items-center mb-8">
+                                    <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                        <Image src="/pictures/land_type.png" alt="budget" width={30} height={30} />
+                                    </div>
+                                    <div className="border-b border-black w-full pb-2">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Pond Type</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.land_type.charAt(0).toUpperCase() + data.data.land_type.slice(1)}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="flex gap-5 items-center mb-8">
+                                    <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                        <Image src="/pictures/land_area.png" alt="budget" width={30} height={30} />
+                                    </div>
+                                    <div className="border-b border-black w-1/3 pb-2">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Pond Size</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.land_area} m2
+                                        </h4>
+                                    </div>
+                                    <div className="border-b border-black w-1/3 pb-2">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Total Ponds</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.total_ponds === 2 && '> 1'}
+                                        {data.data.total_ponds === 0 && 'None'}
+                                        {data.data.total_ponds === 1 && '1'}
+                                        </h4>
+                                    </div>
+                                    <div className="border-b border-black w-1/3 pb-2">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Lack of Water</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.poor_water === 0 && 'No'}
+                                        {data.data.poor_water === 1 && 'Yes'}
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="flex gap-5 items-center mb-8">
+                                    <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                        <Image src="/pictures/food_type.png" alt="budget" width={30} height={30} />
+                                    </div>
+                                    <div className="border-b border-black pb-2 w-1/3">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Feed Type</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.food_type.charAt(0).toUpperCase() + data.data.food_type.slice(1)}
+                                        </h4>
+                                    </div>
+                                    <div className="border-b border-black pb-2 w-2/3">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Feeding Frequency</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.feeding_cycle} times each day
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="flex gap-5 items-center mb-8">
+                                    <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                        <Image src="/pictures/food_ratio.png" alt="budget" width={30} height={30} />
+                                    </div>
+                                    <div className="border-b border-black pb-2 w-1/3">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Main Feed Ratio</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.food_ratio} %
+                                        </h4>
+                                    </div>
+                                    <div className="border-b border-black pb-2 w-2/3">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Alternative Feed Ratio</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {100 - data.data.food_ratio} %
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="flex gap-5 items-center mb-8">
+                                    <div className="rounded-lg min-w-[57px] min-h-[57px] bg-[#DAD3FE] flex items-center justify-center">
+                                        <Image src="/pictures/food_ratio.png" alt="budget" width={30} height={30} />
+                                    </div>
+                                    <div className="border-b border-black w-full pb-2">
+                                        <h3 className="font-[Poppins] font-semibold text-md mb-1">Seeds</h3>
+                                        <h4 className="font-[Poppins] text-sm">
+                                        {data.data.total_seeds} kg
+                                        </h4>
+                                    </div>
+                                </div>
+                                <div className="flex gap-5 items-center">
+                                    <div className={`rounded-lg w-full min-h-[57px] ${bgColor} flex items-center gap-10 justify-left p-7`}>
+                                        <Image src="/pictures/result.png" alt="budget" width={90} height={90} />
+                                    
+                                        <div className="w-3/4">
+                                            <h3 className="font-[Poppins] text-2xl font-bold text-md mb-1">
+                                                Based on your strategy, your success rate is 50%
+                                            </h3>
+                                            <h4 className="font-[Poppins] text-md">
+                                                Test
+                                            </h4>
+                                        </div>
 
+                                    </div>
                                 </div>
                             </>
                         ):(
