@@ -36,7 +36,7 @@ export default function AdminDashboard() {
         };
     
         fetchData();
-    }, [session?.user])
+    }, [session?.user.email])
 
     // const budget = new Intl.NumberFormat('en-US', {
     //     style: 'currency',
@@ -50,7 +50,7 @@ export default function AdminDashboard() {
 
     let bgColor, resultTitle, resultText
 
-    if(data?.data.estimationBudget > data?.data?.budget) {
+    if(data?.data?.estimationBudget > data?.data?.budget) {
         bgColor = 'bg-[#F69999]'
         resultTitle = 'Unfortunately, your success rate is low'
         resultText = 'To succeed your fish farming production, you need to change your strategy.'
