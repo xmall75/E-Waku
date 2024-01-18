@@ -7,17 +7,29 @@ Members:<br />
 - Revanantyo Dwigantara (Hacker)<br />
 <br />
 
+Introducing e-Waku, a revolutionary web app designed to support aspiring fish farmers. With a seamless login and registration system integrated with Google Firebase, e-Waku ensures accessibility from any device. But what sets e-Waku apart is its forecasting system, powered by machine learning using TensorFlow. Through advanced transfer learning, we've accelerated performance to provide better results.
+
 Current feature(s):
 - Authentication with Firebase
-- Success Rate Forecast with Tensorflow
+- Success Probability Forecast with Tensorflow
 
 Upcoming feature(s):
 - Subscription for more features for users
 
+![register](https://github.com/xmall75/e-Waku/assets/34641833/03daa4ea-9e50-498f-8800-2474be5e61b0)
+
+![login](https://github.com/xmall75/e-Waku/assets/34641833/aac92bc6-6073-42b2-b74b-4243034ee3aa)
+
+![dashboard_nopredict](https://github.com/xmall75/e-Waku/assets/34641833/9f55d17a-e964-4c0c-b658-95430b26bada)
+
+![prediction](https://github.com/xmall75/e-Waku/assets/34641833/052696c2-0f99-4af0-ae98-5ffedf2f3c49)
+
+![dashboard_predicted](https://github.com/xmall75/e-Waku/assets/34641833/61c9f542-abb3-4f1e-8f75-40ada818a9ee)
+
 # How to run:
 1. Clone this repo.
 2. This project is using Next, make sure you have npm installed on your device.
-3. We do not include the node_modules on the repo, so you can execute this command to get the packages needed.
+3. Execute this command to get the packages needed.
 ```
 $ npm install
 ```
