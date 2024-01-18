@@ -58,13 +58,13 @@ export default function AdminDashboard() {
     }
     else {
         if (data?.data?.result === 'high') {
-            img = 'result_normal.png'
+            img = 'result_high.png'
             bgColor = 'bg-[#99F69D]'
             resultTitle = 'Congratulations! your success rate is high'
             resultText = 'Great! Your strategy is already enough to make your fish farming success.'
         }
         else if (data?.data?.result === 'normal') {
-            img = 'result_high.png'
+            img = 'result_normal.png'
             bgColor = 'bg-[#F6D199]'
             resultTitle = 'Based on your strategy, your success rate is normal'
             resultText = 'It is okay to implement your strategy, but another improvement will be needed.'
