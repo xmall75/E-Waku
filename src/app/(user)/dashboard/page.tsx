@@ -41,27 +41,27 @@ export default function AdminDashboard() {
     const budget = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'IDR',
-    }).format(data?.data.budget)
+    }).format(data?.data?.budget)
 
     const estimationBudget = new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'IDR',
-    }).format(data?.data.estimationBudget)
+    }).format(data?.data?.estimationBudget)
 
     let bgColor, resultTitle, resultText
 
-    if(data?.data.estimationBudget > data?.data.budget) {
+    if(data?.data?.estimationBudget > data?.data?.budget) {
         bgColor = 'bg-[#F69999]'
         resultTitle = 'Unfortunately, your success rate is low'
         resultText = 'To succeed your fish farming production, you need to change your strategy.'
     }
     else {
-        if (data?.data.result === 'high') {
+        if (data?.data?.result === 'high') {
             bgColor = 'bg-[#99F69D]'
             resultTitle = 'Congratulations! your success rate is high'
             resultText = 'Great! Your strategy is already enough to make your fish farming success.'
         }
-        else if (data?.data.result === 'normal') {
+        else if (data?.data?.result === 'normal') {
             bgColor = 'bg-[#F6D199]'
             resultTitle = 'Based on your strategy, your success rate is normal'
             resultText = 'It is okay to implement your strategy, but another improvement will be needed.'
